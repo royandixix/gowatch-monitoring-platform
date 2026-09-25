@@ -1,0 +1,71 @@
+# ==============================
+# GoWatch - Git Ignore
+# ==============================
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# ==============================
+# Backend - Go
+# ==============================
+
+backend/bin/
+backend/tmp/
+backend/dist/
+
+backend/*.out
+backend/coverage.out
+backend/coverage.html
+
+# ==============================
+# Frontend - SvelteKit / Node
+# ==============================
+
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+frontend/dist/
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/pnpm-debug.log*
+
+frontend/coverage/
+
+# ==============================
+# Docker / Local Data
+# ==============================
+
+docker-data/
+postgres-data/
+
+# ==============================
+# Backups
+# ==============================
+
+backups/
+*.dump
+*.sql.gz

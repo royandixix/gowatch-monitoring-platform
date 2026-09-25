@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: gowatch-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: gowatch
+      POSTGRES_USER: gowatch_user
+      POSTGRES_PASSWORD: gowatch_dev_password
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - gowatch_postgres_data:/var/lib/postgresql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gowatch_user -d gowatch"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  gowatch_postgres_data:
