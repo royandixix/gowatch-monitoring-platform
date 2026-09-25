@@ -18,7 +18,7 @@ The application periodically checks registered websites, stores monitoring resul
 
 GoWatch provides authentication, website monitoring, uptime statistics, response-time analytics, monitoring history, user profile management, and backend security protection.
 
-The project is built using **Go**, **Gin**, **PostgreSQL**, **SvelteKit**, and **TypeScript**.
+The project is built with **Go**, **Gin**, **PostgreSQL**, **SvelteKit**, and **TypeScript**.
 
 ---
 
@@ -55,7 +55,7 @@ Users can:
 - Activate or deactivate monitoring
 - Configure monitoring interval
 
-Each monitor stores information such as:
+Each monitor stores:
 
 - Monitor name
 - Website URL
@@ -79,7 +79,7 @@ Monitoring results include:
 
 ### Dashboard Analytics
 
-The dashboard displays monitoring information such as:
+The dashboard displays:
 
 - Total monitors
 - Active monitors
@@ -93,7 +93,7 @@ The dashboard displays monitoring information such as:
 
 ### Monitoring History
 
-Monitoring history can be viewed and filtered by:
+Monitoring history can be filtered by:
 
 - Monitor
 - Status
@@ -111,7 +111,7 @@ Each monitoring record contains:
 
 ### Monitor Details
 
-Each monitor has a detailed monitoring page containing:
+Each monitor has a detailed page containing:
 
 - Current status
 - Uptime percentage
@@ -126,23 +126,23 @@ Each monitor has a detailed monitoring page containing:
 
 ## Security
 
-GoWatch includes several backend protections.
+GoWatch includes several backend security protections.
 
 ### SSRF Protection
 
 Before a URL can be monitored, GoWatch validates the destination and blocks unsafe network targets.
 
-Examples of blocked destinations include:
+Blocked targets include:
 
-- localhost
-- loopback addresses
-- private IPv4 networks
-- private IPv6 networks
-- link-local addresses
-- metadata addresses
-- multicast addresses
-- local network hostnames
-- unsafe redirect destinations
+- `localhost`
+- Loopback addresses
+- Private IPv4 networks
+- Private IPv6 networks
+- Link-local addresses
+- Metadata addresses
+- Multicast addresses
+- Local network hostnames
+- Unsafe redirect destinations
 
 Only HTTP and HTTPS URLs are accepted.
 
@@ -154,9 +154,9 @@ Resolved IP addresses are validated to prevent requests from reaching restricted
 
 ### Redirect Protection
 
-HTTP redirect destinations are also validated.
+HTTP redirect destinations are validated before requests continue.
 
-The number of redirects is limited to prevent redirect loops and unsafe redirection.
+The number of redirects is also limited to prevent redirect loops and unsafe redirection.
 
 ### Request Timeout
 
@@ -171,7 +171,7 @@ Rate limiting is implemented on sensitive endpoints such as:
 - Single URL check
 - Multiple URL check
 
-### Authentication
+### Authentication Protection
 
 Protected endpoints require a valid JWT token.
 
@@ -238,14 +238,14 @@ User-owned resources are queried using the authenticated user ID to prevent user
               │                             │
               ▼                             ▼
     ┌──────────────────┐          ┌──────────────────┐
-    │    PostgreSQL    │          │ Monitoring Worker │
-    │     Database     │          │  Website Checker  │
+    │    PostgreSQL    │          │ Monitoring Worker│
+    │     Database     │          │ Website Checker  │
     └──────────────────┘          └─────────┬────────┘
                                            │
                                            ▼
                                   ┌──────────────────┐
                                   │ External Website │
-                                  │     / API        │
+                                  │      / API       │
                                   └──────────────────┘
 ```
 
@@ -253,7 +253,7 @@ User-owned resources are queried using the authenticated user ID to prevent user
 
 ## Production Architecture
 
-GoWatch also includes Docker production configuration.
+GoWatch also includes a Docker-based production configuration.
 
 ```text
 Browser
@@ -264,14 +264,14 @@ Nginx Gateway
    ├── /api/* ───────► Go Backend
    │
    └── /* ───────────► SvelteKit Frontend
-                           │
-Go Backend ────────────────┤
+
+Go Backend
    │
    ▼
 PostgreSQL
 ```
 
-Production deployment can be completed later on a VPS or cloud server.
+Production deployment to a public VPS or cloud server can be completed as a separate deployment step.
 
 ---
 
@@ -281,7 +281,6 @@ Production deployment can be completed later on a VPS or cloud server.
 gowatch/
 │
 ├── backend/
-│   │
 │   ├── cmd/
 │   │   └── api/
 │   │       └── main.go
@@ -300,11 +299,11 @@ gowatch/
 │   ├── migrations/
 │   ├── Dockerfile
 │   ├── .dockerignore
+│   ├── .env.example
 │   ├── go.mod
 │   └── go.sum
 │
 ├── frontend/
-│   │
 │   ├── src/
 │   │   ├── lib/
 │   │   │   ├── api/
@@ -364,9 +363,9 @@ Docker  : Docker Desktop
 
 ---
 
-# Local Development
+## Local Development
 
-## 1. Clone Repository
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/royandixix/gowatch-monitoring-platform.git
@@ -374,9 +373,7 @@ git clone https://github.com/royandixix/gowatch-monitoring-platform.git
 cd gowatch-monitoring-platform
 ```
 
----
-
-## 2. Start PostgreSQL
+### 2. Start PostgreSQL
 
 GoWatch provides a Docker Compose configuration for PostgreSQL.
 
@@ -390,15 +387,13 @@ Check the container:
 docker compose ps
 ```
 
-Development PostgreSQL is available through:
+Development PostgreSQL is available on:
 
 ```text
 localhost:5433
 ```
 
----
-
-## 3. Backend Configuration
+### 3. Backend Configuration
 
 Enter the backend directory:
 
@@ -412,9 +407,7 @@ Create the environment file:
 cp .env.example .env
 ```
 
-Configure the backend environment.
-
-Example:
+Example configuration:
 
 ```env
 APP_NAME=GoWatch
@@ -435,23 +428,15 @@ FRONTEND_URL=http://localhost:5173
 
 Do not commit the real `.env` file.
 
----
+### 4. Run Backend
 
-## 4. Run Backend
-
-From:
-
-```text
-gowatch/backend
-```
-
-run:
+From the `backend` directory:
 
 ```bash
 go run ./cmd/api
 ```
 
-The backend API will run on:
+Backend API:
 
 ```text
 http://localhost:8081
@@ -463,9 +448,7 @@ Health check:
 http://localhost:8081/api/v1/health
 ```
 
----
-
-## 5. Frontend Setup
+### 5. Frontend Setup
 
 Open another terminal:
 
@@ -479,7 +462,7 @@ Install dependencies:
 npm install
 ```
 
-Run development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -493,9 +476,7 @@ http://localhost:5173
 
 ---
 
-# Application URLs
-
-Development:
+## Application URLs
 
 ```text
 Frontend
@@ -507,15 +488,15 @@ http://localhost:8081
 Health API
 http://localhost:8081/api/v1/health
 
-PostgreSQL Host Port
+PostgreSQL
 localhost:5433
 ```
 
 ---
 
-# API Endpoints
+## API Endpoints
 
-## Public
+### Public
 
 ```text
 GET    /
@@ -525,26 +506,26 @@ POST   /api/v1/auth/register
 POST   /api/v1/auth/login
 ```
 
-## Authentication
+### Authentication
 
 ```text
 GET    /api/v1/auth/me
 ```
 
-## Dashboard
+### Dashboard
 
 ```text
 GET    /api/v1/dashboard
 ```
 
-## Website Check
+### Website Check
 
 ```text
 GET    /api/v1/check
 GET    /api/v1/check-multiple
 ```
 
-## Monitor Management
+### Monitor Management
 
 ```text
 POST   /api/v1/monitors
@@ -554,7 +535,7 @@ PUT    /api/v1/monitors/:id
 DELETE /api/v1/monitors/:id
 ```
 
-## Monitoring Results
+### Monitoring Results
 
 ```text
 GET    /api/v1/monitors/:id/results
@@ -562,7 +543,7 @@ GET    /api/v1/monitors/:id/stats
 GET    /api/v1/history
 ```
 
-## Profile
+### Profile
 
 ```text
 PUT    /api/v1/profile
@@ -577,9 +558,9 @@ Authorization: Bearer <JWT_TOKEN>
 
 ---
 
-# Backend Testing
+## Backend Testing
 
-Enter the backend:
+Enter the backend directory:
 
 ```bash
 cd backend
@@ -591,31 +572,31 @@ Run all tests:
 go test ./...
 ```
 
-Verbose tests:
+Run verbose tests:
 
 ```bash
 go test -v ./...
 ```
 
-Race detector:
+Run the race detector:
 
 ```bash
 go test -race ./...
 ```
 
-Static analysis:
+Run static analysis:
 
 ```bash
 go vet ./...
 ```
 
-Build verification:
+Verify the build:
 
 ```bash
 go build ./...
 ```
 
-The automated test suite covers areas including:
+The automated test suite covers:
 
 - JWT token handling
 - Authentication middleware
@@ -628,33 +609,33 @@ The automated test suite covers areas including:
 
 ---
 
-# Frontend Validation
+## Frontend Validation
 
-Enter:
+Enter the frontend directory:
 
 ```bash
 cd frontend
 ```
 
-Type and Svelte validation:
+Run Svelte and TypeScript validation:
 
 ```bash
 npm run check
 ```
 
-Lint:
+Run linting:
 
 ```bash
 npm run lint
 ```
 
-Production build:
+Build for production:
 
 ```bash
 npm run build
 ```
 
-The frontend production build uses:
+The production frontend uses:
 
 ```text
 @sveltejs/adapter-node
@@ -662,9 +643,9 @@ The frontend production build uses:
 
 ---
 
-# Docker Production
+## Docker Production
 
-GoWatch contains a production Docker architecture consisting of:
+GoWatch includes a production Docker architecture consisting of:
 
 ```text
 PostgreSQL
@@ -673,7 +654,7 @@ SvelteKit Frontend
 Nginx Gateway
 ```
 
-Create production environment:
+Create the production environment file:
 
 ```bash
 cp .env.production.example .env.production
@@ -699,7 +680,7 @@ Edit:
 
 Never commit `.env.production`.
 
-Validate Docker Compose:
+### Validate Docker Compose
 
 ```bash
 docker compose \
@@ -708,7 +689,7 @@ docker compose \
   config --quiet
 ```
 
-Build:
+### Build
 
 ```bash
 docker compose \
@@ -717,7 +698,7 @@ docker compose \
   build
 ```
 
-Start:
+### Start
 
 ```bash
 docker compose \
@@ -726,7 +707,7 @@ docker compose \
   up -d
 ```
 
-Check services:
+### Check Services
 
 ```bash
 docker compose \
@@ -741,7 +722,7 @@ Production gateway:
 http://localhost:8080
 ```
 
-Stop services without deleting the database volume:
+### Stop Production Services
 
 ```bash
 docker compose \
@@ -750,13 +731,11 @@ docker compose \
   down
 ```
 
-Do not use `down -v` unless you intentionally want to remove the database volume.
+> Do not use `down -v` unless you intentionally want to remove the PostgreSQL volume.
 
 ---
 
-# Monitoring Flow
-
-When an active monitor is created, the monitoring process works approximately as follows:
+## Monitoring Flow
 
 ```text
 User creates monitor
@@ -793,7 +772,7 @@ Dashboard / History / Statistics
 
 ---
 
-# Monitor Status
+## Monitor Status
 
 A successful website response is stored as an `UP` monitoring result.
 
@@ -803,26 +782,23 @@ Response time is recorded in milliseconds.
 
 ---
 
-# Uptime Calculation
+## Uptime Calculation
 
-GoWatch currently calculates uptime from the ratio between successful checks and total monitoring checks.
-
-Conceptually:
+GoWatch currently calculates uptime based on the ratio of successful checks to total checks.
 
 ```text
-Uptime (%) =
-Successful Checks
------------------ × 100
-Total Checks
+             Successful Checks
+Uptime (%) = ----------------- × 100
+                 Total Checks
 ```
 
-The current uptime metric is therefore check-based rather than a time-weighted SLA calculation.
+The current uptime metric is check-based rather than a time-weighted SLA calculation.
 
 ---
 
-# Database
+## Database
 
-The main data includes:
+The main database tables are:
 
 ```text
 users
@@ -830,39 +806,43 @@ monitors
 monitor_results
 ```
 
-`users` stores registered users.
+### `users`
 
-`monitors` stores website monitoring configuration.
+Stores registered user accounts.
 
-`monitor_results` stores the result of each monitoring execution.
+### `monitors`
+
+Stores website monitoring configurations.
+
+### `monitor_results`
+
+Stores the result of each monitoring execution.
 
 ---
 
-# Development Commands
+## Development Commands
 
-Backend:
+### Backend
 
 ```bash
 cd backend
-
 go run ./cmd/api
 ```
 
-Frontend:
+### Frontend
 
 ```bash
 cd frontend
-
 npm run dev
 ```
 
-Database:
+### Database
 
 ```bash
 docker compose up -d
 ```
 
-Check Docker:
+### Check Docker
 
 ```bash
 docker compose ps
@@ -870,34 +850,32 @@ docker compose ps
 
 ---
 
-# Production Readiness
+## Production Readiness
 
-The project already includes:
+The project currently includes:
 
-```text
-Authentication
-User profile management
-Website monitoring
-Background monitoring worker
-Monitoring history
-Monitor statistics
-Dashboard analytics
-SSRF protection
-DNS validation
-Redirect protection
-Rate limiting
-Graceful shutdown
-Automated backend tests
-Frontend linting and validation
-Docker configuration
-Nginx gateway configuration
-```
+- Authentication
+- User profile management
+- Website monitoring
+- Background monitoring worker
+- Monitoring history
+- Monitor statistics
+- Dashboard analytics
+- SSRF protection
+- DNS validation
+- Redirect protection
+- Rate limiting
+- Graceful shutdown
+- Automated backend tests
+- Frontend linting and validation
+- Docker configuration
+- Nginx gateway configuration
 
-Deployment to a public VPS or cloud server can be completed as a separate deployment step.
+Deployment to a public VPS or cloud server can be completed as a separate step.
 
 ---
 
-# Future Development
+## Future Development
 
 Possible future improvements include:
 
@@ -912,7 +890,7 @@ Possible future improvements include:
 - HTTP method configuration
 - Incident management
 - Public status pages
-- Organization/team accounts
+- Organization and team accounts
 - Multiple monitoring regions
 - Advanced uptime SLA calculation
 - Prometheus metrics
@@ -922,24 +900,24 @@ Possible future improvements include:
 
 ---
 
-# Security Notes
+## Security Notes
 
 Never commit:
 
 ```text
 .env
 .env.production
-database passwords
+Database passwords
 JWT secrets
-access tokens
+Access tokens
 API keys
 ```
 
-Use strong random secrets for production.
+Always use strong random secrets in production environments.
 
 ---
 
-# Disclaimer
+## Disclaimer
 
 GoWatch is currently developed as a software engineering and portfolio project.
 
@@ -947,7 +925,7 @@ Before running it in a critical production environment, perform additional secur
 
 ---
 
-# Author
+## Author
 
 **Royandi**
 
@@ -964,7 +942,7 @@ Software Engineering
 
 ---
 
-# License
+## License
 
 This project is intended for educational, portfolio, and development purposes.
 
@@ -974,5 +952,4 @@ A formal open-source license can be added if the project is intended for public 
 
 <p align="center">
   Made with Go, SvelteKit, PostgreSQL, and Docker.
-</p># gowatch-monitoring-platform
-# gowatch-monitoring-platform
+</p>
