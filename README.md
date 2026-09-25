@@ -975,3 +975,4 @@ A formal open-source license can be added if the project is intended for public 
 <p align="center">
   Made with Go, SvelteKit, PostgreSQL, and Docker.
 </p># gowatch-monitoring-platform
+# gowatch-monitoring-platform
